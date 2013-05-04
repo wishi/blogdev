@@ -401,7 +401,7 @@ function init(){
           });
 
 
-          $jit.util.addEvent(domElement, 'click', function () {
+          $jit.util.addEvent(domElement, 'rclick', function () {
               ht.onClick(node.id, {
                   onComplete: function() {
                       ht.controller.onComplete();
