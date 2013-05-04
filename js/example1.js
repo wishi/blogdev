@@ -352,6 +352,8 @@ function init(){
     
     //init Hypertree
     var ht = new $jit.Hypertree({
+
+       
       //id of the visualization container
       injectInto: 'infovis',
       //canvas width and height
@@ -370,11 +372,35 @@ function init(){
       onBeforeCompute: function(node){
           Log.write("centering");
       },
+
+
+      Events: {
+          enable: true,
+          onClick: function(node, eventInfo, e) {
+              ht.controller.onComplete();
+          },
+          onRightClick: function(node, eventInfo, e) {
+              ht.controller.onComplete();
+          },
+      },
+
+
+
       //Attach event handlers and add text to the
       //labels. This method is only triggered on label
       //creation
       onCreateLabel: function(domElement, node){
-          domElement.innerHTML = '<a href="' + node.name + '">Click Me </a>';
+          domElement.innerHTML = node.name;
+          
+          $jit.util.addEvent(domElement, 'click', function () {
+              ht.onRightClick(node.id, {
+                  onComplete: function() {
+                      ht.controller.onComplete();
+                  }
+              });
+          });
+
+
           $jit.util.addEvent(domElement, 'click', function () {
               ht.onClick(node.id, {
                   onComplete: function() {
@@ -383,6 +409,8 @@ function init(){
               });
           });
       },
+
+
       //Change node styles when labels are placed
       //or moved.
       onPlaceLabel: function(domElement, node){
